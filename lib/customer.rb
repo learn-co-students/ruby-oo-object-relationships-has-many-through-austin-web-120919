@@ -1,37 +1,42 @@
-require 'pry'
 
-class Customer
+class Customer 
     attr_accessor :name, :age
 
     @@all = []
 
-    def initialize(name,age)
+    def initialize(name, age)
         @name = name
         @age = age
         @@all << self
     end
 
-    def self.all
-        @@all
-    end
+    #INSTANCE METHODS
 
-    def new_meal(waiter, total, tip=0)
-        Meal.new(waiter, self, total, tip)
+    def new_meal(waiter,total,tip)
+        Meal.new(waiter,self,total,tip)
     end
 
     def meals
-        Meal.all.select do |meal|
-            meal.customer == self
-            # binding.pry
-        end
-        
+     myMeals
     end
 
     def waiters
-        meals.map do |meal|
+        myMeals.collect do |meal|
             meal.waiter
-            # binding.pry
         end
+    end
+    #HELPER METHOD
+
+    def myMeals
+        Meal.all.select do |meal|
+            meal.customer == self
+        end
+    end
+
+    #CLASS METHODS
+
+    def self.all 
+        @@all 
     end
 
 end

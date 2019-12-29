@@ -1,37 +1,43 @@
-class Waiter
+require 'pry'
 
-    attr_accessor :name, :years_of_experience
+class Waiter
+    attr_accessor :name, :yrs_experience
 
     @@all = []
 
-    def initialize(name,years_of_experience)
+    def initialize(name, yrs_experience)
         @name = name
-        @years_of_experience = years_of_experience
+        @yrs_experience = yrs_experience
         @@all << self
     end
 
-    def self.all
-        @@all
-    end
+    #INSTANCE METHODS
 
-    def new_meal(customer,total,tip=0)
-        Meal.new(self, customer, total, tip)
+    def new_meal(customer,total,tip)
+        Meal.new(self,customer,total,tip)
     end
 
     def meals
+       myMeals
+    end
+
+    #HELPER METHOD
+
+    def myMeals
         Meal.all.select do |meal|
             meal.waiter == self
-            # binding.pry
         end
     end
 
     def best_tipper
-        best_tipped_meal = meals.max do |meal_a,meal_b|
+        myMeals.max do |meal_a,meal_b|
             meal_a.tip <=> meal_b.tip
-            # binding.pry
-        end
-        best_tipped_meal.customer
+        end.customer
     end
 
+    #CLASS METHODS
 
+    def self.all
+        @@all 
+    end
 end
